@@ -1,0 +1,59 @@
+
+const conexao = require('../infraestrutura/conexao');
+
+class TarefaModel{
+    listar(){
+        const sql = 'SELECT * FROM tarefas';
+        return new Promise((resolve, reject)=> {
+            conexao.query(sql, {}, (error, resposta)=>{
+            if(error){
+                console.log(`deu erro no listar`);
+                reject(error);
+            }
+            console.log(`show`);
+            resolve(resposta);
+            });
+        });
+    }
+    criar(novaTarefa){
+        const sql = 'INSERT INTO tarefas SET ?'
+        return new Promise((resolve, reject)=>{
+            conexao.query(sql, novaTarefa, (error, resposta)=> {
+            if (error){
+                console.log('deu erro na criacao');
+                reject(error);
+                }
+            console.log('criacao show');
+            resolve(resposta);
+            });
+        });
+    }
+    atualizar(tarefaAtualizada, id){
+        const sql = 'UPDATE tarefas SET ? WHERE id = ?'
+        return new Promise((resolve, reject)=>{
+            conexao.query(sql, [tarefaAtualizada, id], (error, resposta)=> {
+            if (error){
+                console.log('deu erro na atualizacao');
+                reject(error);
+                }
+            console.log('atualizacao show');
+            resolve(resposta);
+            });
+        });
+    }
+    apagar(id){
+        const sql = 'DELETE FROM tarefas WHERE id = ?'
+        return new Promise((resolve, reject)=>{
+            conexao.query(sql, id, (error, resposta)=> {
+            if (error){
+                console.log('deu erro ao apagar');
+                reject(error);
+                }
+            console.log('delete show');
+            resolve(resposta);
+            });
+        });
+    }
+}
+
+module.exports = new TarefaModel();
